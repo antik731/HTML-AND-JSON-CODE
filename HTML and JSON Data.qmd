@@ -1,0 +1,48 @@
+---
+title: "HTML and JSON"
+author: "Antik Salimullah"
+format: html
+editor: visual
+---
+
+# Importing HTML & JSON into R
+
+```{r}
+library(rvest)
+library(jsonlite)
+
+# Read HTML table
+html_data <- read_html("books.html") |>
+  html_element("table") |>
+  html_table()
+
+# Read JSON data
+json_data <- fromJSON("books.json")
+
+# Display both data frames
+html_data
+json_data
+```
+
+# Comparison Code
+
+```{r}
+
+# Compare the original data frames
+identical(html_data, json_data)
+
+# Convert HTML tibble to a regular data frame
+html_data <- as.data.frame(html_data)
+
+# Compare again
+identical(html_data, json_data)
+
+```
+
+# Comparing HTML and JSON Data
+
+I created two files containing information about three books on US-China relations. Both files were successfully imported into R with three rows and five columns.
+
+Initially, the `identical()` function returned FALSE because the HTML data was imported as a tibble, while the JSON data was imported as a regular data frame.
+
+After converting the HTML tibble using `as.data.frame()`, the comparison returned TRUE. This confirms that both files contain identical data.
